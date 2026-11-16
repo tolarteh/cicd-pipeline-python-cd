@@ -58,6 +58,9 @@ def find_elements(browser):
         ("4", "6", "multiplicar", "Resultado: 24.0"),
         ("10", "2", "dividir", "Resultado: 5.0"),
         ("5", "0", "dividir", "Resultado: Error: No se puede dividir por cero"),
+        ("2", "3", "potencia", "Resultado: 8.0"),
+        ("7", "3", "modulo", "Resultado: 1.0"),
+        ("5", "0", "modulo", "Resultado: Error: No se puede dividir por cero"),
         ("abc", "def", "sumar", "Resultado: Error: Introduce números válidos"),
     ],
 )

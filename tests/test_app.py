@@ -23,6 +23,8 @@ def test_index_get(client):
         pytest.param("restar", "5", "3", b"Resultado: 2.0", id="restar"),
         pytest.param("multiplicar", "2", "3", b"Resultado: 6.0", id="multiplicar"),
         pytest.param("dividir", "6", "3", b"Resultado: 2.0", id="dividir"),
+        pytest.param("potencia", "2", "3", b"Resultado: 8.0", id="potencia"),
+        pytest.param("modulo", "7", "3", b"Resultado: 1.0", id="modulo"),
     ],
 )
 def test_index_post_operaciones(client, operacion, num1, num2, esperado):
@@ -37,6 +39,28 @@ def test_index_post_dividir_by_zero(client):
     response = client.post("/", data={"num1": "6", "num2": "0", "operacion": "dividir"})
     assert response.status_code == 200
     assert b"Error: No se puede dividir por cero" in response.data
+
+
+def test_index_post_modulo_by_zero(client):
+    response = client.post("/", data={"num1": "5", "num2": "0", "operacion": "modulo"})
+    assert response.status_code == 200
+    assert b"Error: No se puede dividir por cero" in response.data
+
+
+def test_index_post_potencia_overflow(client):
+    response = client.post(
+        "/", data={"num1": "10", "num2": "1000", "operacion": "potencia"}
+    )
+    assert response.status_code == 200
+    assert b"Error: El resultado es demasiado grande" in response.data
+
+
+def test_index_post_potencia_no_real(client):
+    response = client.post(
+        "/", data={"num1": "-8", "num2": "0.5", "operacion": "potencia"}
+    )
+    assert response.status_code == 200
+    assert "Error: El resultado no es un número real".encode() in response.data
 
 
 def test_index_post_invalid_operation(client):
