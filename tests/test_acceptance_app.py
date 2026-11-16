@@ -18,6 +18,9 @@ def browser():
     options.add_argument("--headless")  # Ejecuta sin interfaz gráfica
     options.add_argument("--no-sandbox")  # Necesario para algunos entornos
     options.add_argument("--disable-dev-shm-usage")  # Necesario para algunos entornos
+    # El ALB de AWS solo expone HTTP: sin esto, Chrome muestra la advertencia
+    # de HTTPS-First (página en blanco en headless) en vez de la aplicación.
+    options.add_argument("--disable-features=HttpsFirstBalancedModeAutoEnable")
     driver = webdriver.Chrome(options=options)
 
     # Opción 2: Firefox (headless)
